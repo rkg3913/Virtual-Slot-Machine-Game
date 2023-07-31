@@ -1,5 +1,5 @@
 import emoji # Import emoji module to allow the use of emojis
-import random 
+import random # Import random module to allow generating random numbers
 
 MAX_NUM_OF_LINES = 3
 MAX_BET = 500
@@ -15,17 +15,53 @@ symbol_count = {
     "D": 8 
 }
 
-def get_slot_machine_spin(rows, cols, symbols): 
+def get_slot_machine_spin(rows, cols, symbols):
+    """
+    Generate slot machine spins and return a 2D list representing the result.
+
+    The method generates random spins for a slot machine with the given number of rows and columns.
+    The symbols to be used in the slot machine are defined in the 'symbols' dictionary, where the keys represent symbols,
+    and the values represent the count of each symbol in the slot machine.
+
+    Args:
+        rows (int): The number of rows in the slot machine.
+        cols (int): The number of columns in the slot machine.
+        symbols (dict): A dictionary containing the symbols and their respective counts in the slot machine.
+                        Example: {'A': 2, 'B': 4, 'C': 6, 'D': 8}
+
+    Returns:
+        list: A 2D list representing the slot machine spins, where each inner list represents a column,
+              and each element in the column list represents a symbol from the 'symbols' dictionary.
+
+    Example:
+        get_slot_machine_spin(3, 3, {'A': 2, 'B': 4, 'C': 6, 'D': 8})
+        Output: [['B', 'C', 'D'], ['C', 'D', 'D'], ['B', 'B', 'C']]
+    """
+
     all_symbols = []
     
-    for symbol, symbol_count in symbols.items(): 
-        for _ in range(symbol_count): 
+    # Generate a list of all symbols based on their counts in the 'symbols' dictionary
+    for symbol, symbol_count in symbols.items():
+        for _ in range(symbol_count):
             all_symbols.append(symbol)
     
-    columns = [[], [], []]
-    for col in range(cols): 
+    columns = []
+    for _ in range(cols):
         column = []
-        for row in range(rows):        
+        current_symbols = all_symbols[:]
+        for _ in range(rows):
+            # Choose a random symbol from the available symbols and remove it from the list to avoid duplicates
+            value = random.choice(current_symbols)
+            current_symbols.remove(value)
+            column.append(value)
+
+        columns.append(column)
+    
+    return columns
+
+def print_slot_machine(columns):
+    
+    
 
 def deposit():
     """
