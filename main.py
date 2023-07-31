@@ -59,10 +59,45 @@ def get_slot_machine_spin(rows, cols, symbols):
     
     return columns
 
-def print_slot_machine(columns): # Need to create a printing method to visualize a spin of the machine
-    
-    
+def print_slot_machine(columns):
+    """
+    Print the slot machine spins in a user-friendly format.
 
+    The method takes a 2D list representing the slot machine spins, where each inner list represents a column,
+    and each element in the column list corresponds to a symbol from the slot machine spins.
+
+    The function prints the spins in a user-friendly format, displaying each column as vertical symbols in the slot machine.
+
+    Args:
+        columns (list): A 2D list containing the slot machine spins. Each inner list represents a column in the slot machine.
+                        Example: [['B', 'C', 'D'], ['C', 'D', 'D'], ['B', 'B', 'C']]
+
+    Returns:
+        None
+
+    Example:
+        print_slot_machine([['B', 'C', 'D'], ['C', 'D', 'D'], ['B', 'B', 'C']])
+        Output:
+        B | C | B
+        C | D | B
+        D | D | C
+
+    Note:
+    The function assumes that the number of rows in each column is the same, and the input 'columns' list contains valid slot machine spins.
+    """
+
+    for row in range(len(columns[0])):
+        for i, column in enumerate(columns):
+            if i != len(columns) - 1:
+                # Print the symbol followed by a "|" to separate columns (except for the last column)
+                print(column[row], end=" | ")
+            else:
+                # Print the symbol without "|" for the last column
+                print(column[row], end="")
+                
+        print()
+
+            
 def deposit():
     """
     Prompt the user to enter a valid deposit amount and return said valid deposit.
@@ -168,4 +203,6 @@ def main():
     
     print(f'You are betting ${bet_amount} on {lines} line(s). Total bet is equal to ${total_bet}.')
     
+    slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
+    print_slot_machine(slots)
 main()
