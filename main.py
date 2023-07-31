@@ -59,7 +59,7 @@ def get_slot_machine_spin(rows, cols, symbols):
     
     return columns
 
-def print_slot_machine(columns):
+def print_slot_machine(columns): # Need to create a printing method to visualize a spin of the machine
     
     
 
