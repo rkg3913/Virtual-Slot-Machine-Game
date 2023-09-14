@@ -1,5 +1,5 @@
 import emoji # Import emoji module to allow the use of emojis
-import random # Import random module to allow generating random numbers
+import random # Import random module to allow generating random numbers 
 
 MAX_NUM_OF_LINES = 3
 MAX_BET = 500
@@ -13,6 +13,13 @@ symbol_count = {
     "B": 4,
     "C": 6, 
     "D": 8 
+}
+
+symbol_value = {
+    "A": 5, 
+    "B": 4,
+    "C": 3, 
+    "D": 2 
 }
 
 def get_slot_machine_spin(rows, cols, symbols):
@@ -94,10 +101,24 @@ def print_slot_machine(columns):
             else:
                 # Print the symbol without "|" for the last column
                 print(column[row], end="")
-                
-        print()
+        print() 
 
-            
+def check_winnings(columns, lines, bet, values): 
+    winnings = 0 
+    winning_lines = []
+    for line in range(lines): 
+        symbol = columns[0][line]
+        for column in columns: 
+            symbol_to_check = column[line]  
+            if symbol != symbol_to_check: 
+                break
+        else: 
+            winnings += values[symbol] * bet 
+            winning_lines.append(line + 1)
+        
+    return winnings, winning_lines
+        
+        
 def deposit():
     """
     Prompt the user to enter a valid deposit amount and return said valid deposit.
@@ -110,7 +131,7 @@ def deposit():
     Args:
         None
 
-    Returns:
+    Returns: 
         int: User's deposit amount
     """
     
@@ -188,8 +209,7 @@ def get_bet():
     
     return bet_amount
 
-def main():
-    balance = deposit()
+def spin(balance):
     lines = get_number_of_lines()
     
     while True: 
@@ -204,6 +224,23 @@ def main():
     print(f'You are betting ${bet_amount} on {lines} line(s). Total bet is equal to ${total_bet}.')
     
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
-    print_slot_machine(slots)
     
+    print_slot_machine(slots)
+
+    winnings, winning_lines = check_winnings(slots, lines, bet_amount, symbol_value)
+    print(f"You won ${winnings}.")
+    print(f"You won on lines: ", *winning_lines)
+
+    return winnings - total_bet 
+
+def main():
+    balance = deposit() 
+    while True: 
+        print(f"Current balance is ${balance}")
+        ans = input("Press enter to play (q to quit).")
+        if ans == "q": 
+            break 
+        balance += spin(balance)
+    print(f"You left with ${balance}")
+     
 main()
